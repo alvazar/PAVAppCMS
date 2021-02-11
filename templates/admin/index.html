@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- b[head] { -->
+    <title>Панель управления - <!-- v[title] --></title>
+    <link href="<!-- v[rootDir] -->templates/default/styles.css?v<!-- v[fileCacheFlag] -->" type="text/css" rel="stylesheet">
+    <link href="<!-- v[rootDir] -->makers/styles.css?v<!-- v[fileCacheFlag] -->" type="text/css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->js/ckeditor5/ckeditor.js"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->makers/js/popupMaker.lib.js?v<!-- v[fileCacheFlag] -->"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->makers/js/listMaker.lib.js?v<!-- v[fileCacheFlag] -->"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->js/template.js?v<!-- v[fileCacheFlag] -->"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->js/admin/admin.lib.js?v<!-- v[fileCacheFlag] -->"></script>
+    <script type="text/javascript" src="<!-- v[rootDir] -->js/admin/build.admin.js?v<!-- v[fileCacheFlag] -->"></script>
+    <!-- } b[head] -->
+</head>
+<body>
+<!-- b[js] { -->
+<script type="text/javascript">
+window._kadmin = {
+    rootDir: "<!-- v[rootDir] -->",
+    pageName: "<!-- v[pageName] -->",
+    editTime: "<!-- editTime -->"
+};
+</script>
+<!-- } b[js] -->
+    
+    <!-- b[header] { -->
+    <div class="header">
+        <div class="logo"><a href="<!-- v[rootDir] -->">&#9000; Панель управления</a></div>
+    </div>
+    <!-- } b[header] -->
+    
+    <div class="leftContent">
+        <div class="title">Меню</div>
+        <div id="leftMenu"></div>
+    </div>
+    
+    <!-- b[page] { -->
+    <!-- v[content] -->
+    <!-- } b[page] -->
+    
+    <div style="height: 40rem;"></div>
+    
+    <!-- b[footer] { -->
+    <div class="footer">
+        <div class="boxInfo">&copy; <a href="#">kadmin</a> <!-- v[year] --></div>
+    </div>
+    <!-- } b[footer] -->
+</body>
+</html>

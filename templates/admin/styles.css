@@ -1,0 +1,461 @@
+@CHARSET "UTF-8";
+body {
+    background-color: #ecf0f5;
+}
+
+html {
+    font-size: 1px;
+}
+a {
+    cursor: pointer;
+}
+
+/* header */
+div.header {
+    background-color: #3c8dbc;
+    padding: 10rem;
+    border-radius: 6rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.header div.logo {
+    background-color: white;
+    display: inline-block;
+    padding: 10rem;
+    border-radius: 6rem;
+}
+div.header div.logo a {
+    color: #1d73b2;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16rem;
+}
+
+/* content */
+div.content {
+    display: inline-block;
+    width: 79%;
+    vertical-align: top;
+    margin-left: 1%;
+    padding-top: 20rem;
+}
+div.content div.title {
+    /*color: #3f51b5;*/
+    font-size: 22rem;
+    margin-bottom: 10rem;
+    font-weight: bold;
+    border-bottom: 3rem solid #3c8dbc;
+    border-radius: 0rem 0rem 0rem 15rem;
+    padding-left: 6rem;
+    padding-bottom: 4rem;
+}
+div.content div.list {
+}
+div.content div.list div.title {
+}
+div.content div.list div.title span.pm {
+    display: none;
+}
+div.content div.list div.table,
+div.content div.list div.table-fields {
+    display: grid;
+    width: 100%;
+    grid-gap: 4rem;
+}
+div.content div.list div.table div.cell {
+    word-break: normal;
+    vertical-align: top;
+    position: relative;
+}
+
+/* list styles */
+
+/* default list style "blue" */
+div.content div.list.blue {
+    border: 1rem solid rgba(63, 81, 181, 0.58);
+    background-color: #FFFFFF;
+    border-radius: 6rem;
+    margin-top: 6rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.content div.list.blue div.title.blue {
+    font-size: 17rem;
+    font-weight: bold;
+    color: white;
+    padding: 4rem;
+    background-color: #3c8dbc;
+    margin-bottom: 6rem;
+    border-radius: 6rem 6rem 0rem 0rem;
+}
+div.content div.list.blue div.title.blue span.pm {
+    display: block;
+    float: right;
+    margin-right: 6rem;
+    font-size: 14rem;
+}
+div.content div.list.blue div.table.blue {
+}
+div.content div.list.blue div.table-fields.blue div.cell.blue {
+    background-color: #FFFFFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16rem;
+    margin: 4rem;
+}
+div.content div.list.blue div.table.blue div.cell.blue {
+    background-color: rgba(220, 220, 220, 0.95);
+    padding: 6rem;
+    border-bottom: 1rem solid rgba(63, 81, 181, 0.58);
+    font-size: 16rem;
+    margin: 4rem;
+}
+
+/* left content */
+div.leftContent {
+    display: inline-block;
+    width: 19%;
+    vertical-align: top;
+    padding-top: 20rem;
+}
+div.leftContent div.title {
+    margin-bottom: 10rem;
+    font-size: 18rem;
+    font-weight: bold;
+    border-bottom: 3rem solid #3c8dbc;
+    border-radius: 0rem 0rem 0rem 15rem;
+    padding-left: 6rem;
+    padding-bottom: 4rem;
+}
+
+/* left menu */
+div.leftContent div.menu {
+    background-color: rgb(197, 199, 201);
+    border: 5rem solid rgb(114, 157, 178);
+    border-right: 5rem solid rgb(114, 157, 178);
+    border-left-width: 0rem;
+    border-radius: 0rem 6rem 6rem 0rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.leftContent div.menu div.menuItem {
+    background-color: rgb(114, 157, 178);
+    padding: 6rem;
+    border-bottom: 1rem solid #e9ecee;
+    transition: background-color 0.2s ease-in 0s;
+}
+div.leftContent div.menu div.menuItem:hover,
+div.leftContent div.menu div.subMenu div.menuItem:hover {
+    background-color: #e9ecee;
+}
+div.leftContent div.menu div.menuItem a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 18rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in 0s;
+}
+div.leftContent div.menu div.menuItem:hover a {
+    color: rgb(12, 110, 158);
+    font-weight: bold;
+}
+div.leftContent div.menu div.menuItem.active {
+    background-color: #e9ecee !important;
+}
+div.leftContent div.menu div.menuItem.active a {
+    color: rgb(12, 110, 158) !important;
+    font-weight: bold;
+}
+div.leftContent div.menu div.menuItem a.subAction::before {
+    content: '▼';
+    font-size: 14rem;
+    float: right;
+}
+div.leftContent div.menu div.menuItem a.subAction.open::before {
+    content: '▲';
+}
+div.leftContent div.menu div.subMenu div.menuItem {
+    background-color: cadetblue;
+}
+div.leftContent div.menu div.subMenu {
+    display: none;
+    border-left: 6rem solid #7b829e;
+}
+div.leftContent div.menu div.subMenu.open {
+    /*display: block;*/
+}
+
+/* footer */
+div.footer {
+    text-align: center;
+}
+
+/* boxes */
+div.boxInfo {
+    border: 6rem solid #3c8dbc;
+    background-color: #FFFFFF;
+    font-size: 14rem;
+    display: inline-block;
+    padding: 6rem;
+    border-radius: 6rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.boxInfo div.title {
+    font-size: 17rem;
+    font-weight: bold;
+    padding: 4rem;
+    color: #3c8dbc;
+    border-bottom: 3rem solid #3c8dbc;
+    border-radius: 0rem 0rem 0rem 15rem;
+    padding-left: 6rem;
+}
+
+/* fields for edit */
+#formEdit {
+    position: relative;
+}
+div.fieldBlock {
+    font-size: 16rem;
+    position: relative;
+    z-index: 2;
+}
+div.fieldBG {
+    position: absolute;
+    top: 32rem;
+    left: 0;
+    background-color: #fff;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+div.cell.blue > div.fieldBG {
+    left: 6rem;
+    right: 6rem;
+    bottom: 6rem;
+}
+#formEdit > div.fieldBG {
+    bottom: 40rem;
+}
+div.fieldTitle {
+    display: inline-block;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    padding: 4rem;
+    color: #1d73b2;
+}
+div.fieldValue {
+    padding: 4rem;
+    padding-top: 8rem;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 60rem;
+    overflow-y: hidden;
+}
+
+div.fieldValue:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 45rem;
+    width: 100%;
+    background: linear-gradient(180deg, transparent, #CCCCCC);
+}
+
+div.fieldValue img {
+    max-width: 200rem;
+}
+a.fieldEditLink {
+    font-weight: bold;
+    color: #1d73b2;
+}
+button.btn {
+    padding: 4rem;
+    color: #1d73b2;
+    background-color: #FFFFFF;
+    border: 1rem solid #1d73b2;
+    font-size: 16rem;
+    cursor: pointer;
+    border-radius: 6rem;
+}
+button.btn.small {
+    font-size: 12rem;
+}
+button.btnSend {
+    padding: 4rem;
+    background-color: #FFFFFF;
+    margin-top: 10rem;
+    font-size: 20rem;
+    border-radius: 6rem;
+}
+button.btnSend.active {
+    color: #1d73b2;
+    border: 1rem solid #1d73b2;
+    cursor: pointer;
+    font-weight: bold;
+}
+button.btnSend.disabled {
+    color: #CCCCCC;
+    border: 1rem solid #CCCCCC;
+    cursor: default;
+}
+div.checkbox {
+    display: inline-block;
+    width: 40rem;
+    height: 20rem;
+    border-radius: 10rem;
+    border: 1rem solid gray;
+    cursor: pointer;
+    background-color: rgba(220, 220, 220, 0.95);
+}
+div.checkbox.checked {	
+    background-color: #3c8dbc;
+}
+div.checkbox.disabled {
+}
+div.checkbox div.toggle {
+    display: inline-block;
+    width: 19rem;
+    height: 19rem;
+    border: 1rem solid gray;
+    background-color: #FFFFFF;
+    border-radius: 10rem;
+}
+div.checkbox.checked div.toggle {
+    float: right;
+}
+div.checkbox div.toggle {
+    float: left;
+}
+
+/* popup customize */
+body div#popupMaker .buttons input {
+    color: #1d73b2;
+    border: 1rem solid #1d73b2;
+}
+body div#popupMaker .buttons input:hover {
+    background-color: rgba(220, 220, 220, 0.95);
+}
+body div#popupMaker div.form {
+}
+body div#popupMaker div.form input.string {
+    width: 400rem;
+    border: 1rem solid #3c8dbc;
+    padding: 4rem;
+}
+body div#popupMaker div.form input.integer {
+    width: 40rem;
+    border: 1rem solid #3c8dbc;
+    padding: 4rem;
+}
+body div#popupMaker div.form textarea.text {
+    width: 600rem;
+    height: 200rem;
+    border: 1rem solid #3c8dbc;
+    padding: 4rem;
+}
+body div#popupMaker div.form .ck-editor {
+    width: 600rem;
+}
+body div#popupMaker div.form div.selectImage {
+    width: 1000rem;
+}
+body div#popupMaker div.form div.selectImage img {
+    width: 100rem;
+    margin: 4rem;
+    cursor: pointer;
+}
+body div#popupMaker div.form div.selectImage img.selected {
+    border: 4rem solid #3c8dbc;
+}
+body div#popupMaker div.form input.date {
+    width: 150rem;
+    border: 1rem solid #3c8dbc;
+    padding: 4rem;
+}
+body div#popupMaker div.openView {
+    padding: 40rem;
+}
+body div#popupMaker div.openView,
+body div#popupMaker div.openView a{
+    font-size: 24rem;
+}
+div.multiple {
+}
+div.multipleItem {
+    position: relative;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+div.multipleItemPanel {
+    position: absolute;
+    left: -55rem;
+    top: 6rem;
+    z-index: 3;
+    background-color: rgba(50, 98, 152, 0.3);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 40rem;
+}
+div.multipleItem.toReplace {
+    position: relative;
+}
+div.multipleItem:hover > div.multipleItemPanel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+div.multipleItemPanel button {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+div.multiplePanel {
+    text-align: right;
+    padding-bottom: 2rem;
+    margin-top: 4rem;
+}
+div.multiplePanel button {
+    margin-left: 10rem;
+}
+
+div.dropZone {
+    border: 2px dashed rgba(60,141,188,0.5);
+    background-color: rgba(60,141,188,0.5);
+    height: 35rem;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+div.dropZone.dropZoneHover {
+    background-color: rgba(60,141,188,0.8);
+}
+div.dropZone.dropZoneHover:after {
+    content: '>> PUT HERE <<';
+    color: #1d73b2;
+    font-weight: bold;
+    font-size: 18rem;
+}
+
+/* auth form */
+div.formAuth {
+    width: 400rem;
+    border: 2px solid #3c8dbc;
+    padding: 10rem;
+    margin: 50rem auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+div.formAuth form {
+    display: grid;
+    grid: repeat(3, 42rem) / 90%;
+    justify-content: center;
+}
+div.formAuth input {
+    border: 1px solid #cccccc;
+    width: 100%;
+    height: 25rem;
+    border-radius: 5px;
+    padding: 4rem;
+}
+div.formAuth div.content {
+    text-align: left;
+}
