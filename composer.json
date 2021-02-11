@@ -8,9 +8,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "pavapp/validator": "dev-master",
-        "pavapp/template": "dev-master"
+        "php": ">=7.0.0"
     },
     "require-dev": {
 
