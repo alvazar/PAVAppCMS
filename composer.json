@@ -1,0 +1,19 @@
+{
+    "name": "pavapp/cms",
+    "description": "Simple PHP CMS",
+    "authors": [
+        {
+            "name": "PAVApp",
+            "email": "alvazar@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "pavapp/validator": "dev-master",
+        "pavapp/template": "dev-master"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev"
+}

@@ -2,6 +2,6 @@ images/
 makers/
 pages/
 js/ckeditor5/
-PAVApp/
-App/Config/
+App/Config/Settings.php
+App/Config/Storage.php
 .htaccess
