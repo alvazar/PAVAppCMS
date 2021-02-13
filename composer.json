@@ -7,11 +7,28 @@
             "email": "alvazar@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=7.0.0"
-    },
     "require-dev": {
 
     },
+    "require":{
+        "php": ">=7.0.0",
+        "pavapp/framework": "dev-master",
+        "pavapp/validator": "dev-master",
+        "pavapp/template": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/alvazar/pavapp.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/alvazar/validator.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/alvazar/template.git"
+        }
+    ],
     "minimum-stability": "dev"
 }
