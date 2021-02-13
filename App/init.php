@@ -1,6 +1,7 @@
 <?php
 
 use App\Config\Namespaces as NSConfig;
+use App\Config\Settings as AppSets;
 use PAVApp\Core\Loader as Loader;
 use PAVApp\MVC\Route;
 use PAVApp\Core\Request;
@@ -24,4 +25,4 @@ spl_autoload_register(function ($cl) {
 
 // start routing
 require_once __DIR__.'/routes/web.php';
-Route::start(new Request());
+Route::start(new Request(AppSets::ROOT_DIR));
