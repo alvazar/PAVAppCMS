@@ -25,4 +25,4 @@ spl_autoload_register(function ($cl) {
 
 // start routing
 require_once __DIR__.'/routes/web.php';
-Route::start(new Request(AppSets::ROOT_DIR));
+Route::start(new Request());

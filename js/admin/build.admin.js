@@ -135,7 +135,7 @@ class KAdminPage
     getFields()
     {
         return new Promise((resolve, reject) => {
-            const path = window._kadmin['rootDir'] + 'pages/' + window._kadmin['pageName'] + "/fields.json";
+            const path = window._kadmin['rootDir'] + 'pages/admin/' + window._kadmin['pageName'] + "/fields.json";
             $.ajax(path, {
                 type: "get",
                 dataType: "JSON",
