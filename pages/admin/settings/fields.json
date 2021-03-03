@@ -1,0 +1,78 @@
+    [{
+        "title" : "Настройка меню слева",
+        "type" : "block-list",
+        "blockState" : "close",
+        "value" : [{
+            "title" : "Пункт меню",
+            "type" : "multiple",
+            "var" : "adminMenu",
+            "value" : [{
+                "type" : "block-list",
+                "css" : "",
+                "listRows" : 2,
+                "value" : [{
+                    "title" : "Пункт меню",
+                    "type" : "block-list",
+                    "listRows" : 2,
+                    "value" : [{
+                        "title" : "Название",
+                        "type" : "string",
+                        "var" : "title"
+                    },{
+                        "title" : "url",
+                        "type" : "string",
+                        "var" : "url"
+                    }]
+                },{
+                    "title" : "Подменю",
+                    "type" : "block-list",
+                    "value" : [{
+                        "title" : "Подменю",
+                        "type" : "multiple",
+                        "var" : "submenu",
+                        "value" : [{
+                            "type" : "block-list",
+                            "css" : "",
+                            "listRows" : 2,
+                            "value" : [{
+                                "title" : "Название",
+                                "type" : "string",
+                                "var" : "title"
+                            },{
+                                "title" : "url",
+                                "type" : "string",
+                                "var" : "url"
+                            }]
+                        }]
+                    }]
+                }]
+            }]
+        }]
+    },{
+    "title" : "Настройка списков для множественных полей",
+    "type" : "block-list",
+    "blockState" : "close",
+    "value" : [{
+        "title" : "Список",
+        "type" : "multiple",
+        "var" : "listValues",
+        "value" : [{
+            "type" : "block-list",
+            "css" : "",
+            "listRows" : 3,
+            "value" : [{
+                "title" : "Название",
+                "type" : "string",
+                "var" : "name"
+            },{
+                "title" : "Варианты",
+                "type" : "text",
+                "var" : "variants"
+            },{
+                "title" : "Путь к папке",
+                "type" : "string",
+                "var" : "path"
+            }]
+        }]
+    }]
+}]
