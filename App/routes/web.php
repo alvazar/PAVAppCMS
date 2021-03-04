@@ -25,3 +25,20 @@ Route::post(
 Route::get('/', function () {
     Route::redirect('/admin/');
 });
+
+/* SITE ROUTES */
+Route::get(
+    '/',
+    'App\Controllers\Site\Page.actionDefault',
+    ['page' => 'main', 'title' => 'Главная']
+);
+Route::get(
+    '/page/{page}/,
+    /code/page/{page}/{subPage}/',
+    'App\Controllers\Site\Page.actionDefault'
+);
+
+Route::post(
+    '/actions/process.php',
+    'App\Controllers\Site\PostActionsHandler.actionDefault'
+);
