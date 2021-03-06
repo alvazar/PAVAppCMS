@@ -1,8 +1,6 @@
 <?php
 namespace App\Config;
 
-/* need rename file to Settings.php */
-
 final class Settings
 {
     //
