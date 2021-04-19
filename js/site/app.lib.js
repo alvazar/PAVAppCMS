@@ -189,17 +189,14 @@ class AppPage
     static runAfterVisible(selector, cb)
     {
         const stateKey = 'checkVisible_' + selector;
-        let item = $(selector);
         const checkVisible = () => {
             if (stateKey in AppPage.states) {
                 return false;
             }
             AppPage.states[stateKey] = true;
             setTimeout(() => {
-                const windowBottom = window.pageYOffset + document.documentElement.clientHeight;
-                let itemPosition = item.offset();
-                if (windowBottom > itemPosition.top) {
-                    cb(item);
+                if (AppPage.checkVisible(selector)) {
+                    cb($(selector));
                     document.removeEventListener("scroll", checkVisible);
                     window.removeEventListener("resize", checkVisible);
                 }
