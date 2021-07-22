@@ -94,7 +94,7 @@ class AppText
             const target = typeof pref != 'undefined' 
                 ? pref + '[' + i + ']'
                 : i;
-            if (typeof data[i] == 'object') {
+            if (typeof data[i] == 'object' && data[i] !== null) {
                 txt = AppText.replaceInText(txt, data[i], target);
             } else {
                 txt = AppText.replaceAll(target, data[i], txt);
