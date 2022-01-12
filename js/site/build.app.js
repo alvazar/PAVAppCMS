@@ -21,7 +21,7 @@ appEvent.add('send', e => {
 });
 
 // init
-$(document).ready(() => {
+$(() => {
     appEvent.init();
 
     // Обработка кнопки "Назад" в браузере.

@@ -1,3 +1,10 @@
+if (typeof window._app == 'undefined') {
+    window._app = {};
+}
+if (!('states' in window._app)) {
+    window._app['states'] = {};
+}
+
 class AppForm
 {
     constructor()
@@ -157,15 +164,61 @@ class AppEvents
 
 class AppPage
 {
-    static states = {};
-    static scroll(scrollToItem, top)
+    static getPageHeight()
     {
+        return Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+        );
+    }
+
+    static scroll(target, top, duration)
+    {
+        const pageHeight = PageHandler.getPageHeight();
         top = top !== undefined ? parseInt(top) : 0;
-        scrollToItem = $(scrollToItem);
-        if (scrollToItem.length > 0) {
-            let scrollItemTop = scrollToItem.offset().top + top;
-            $('html,body').stop().animate({ scrollTop: scrollItemTop }, 500);
+        duration = duration !== undefined ? parseInt(duration) : 500;
+        if (typeof target != 'object') {
+            target =  $(target);
         }
+
+        const headerFixedHeight = () => {
+            let fixedHeader = $('header.fixed-header, header.header-fix');
+            if (
+                fixedHeader.length > 0
+                && fixedHeader.is(":visible")
+                && fixedHeader.css('position') == 'fixed'
+            ) {
+                return fixedHeader.outerHeight();
+            }
+            return 0;
+        };
+
+        if (target.length > 0) {
+
+            if (target.closest('.fr-pop').length > 0) {
+                //$('.fancybox-slide').stop().animate({ scrollTop: target[0].offsetTop }, duration);
+                target[0].scrollIntoView({behavior: 'smooth'});
+            } else {
+                let targetTop = target.offset().top + top;
+                targetTop -= headerFixedHeight();
+                $('html,body').stop().animate({ scrollTop: targetTop }, duration, null, () => {
+                    // Корректирующий скролл. Если в процессе скролла страница меняет высоту.
+                    if (pageHeight != PageHandler.getPageHeight()) {
+                        if (typeof target[0].scrollIntoView == 'function') {
+                            target[0].scrollIntoView({behavior: 'auto'});
+                        } else {
+                            PageHandler.scroll(target, top, duration);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    static jumpTo(target, top)
+    {
+        PageHandler.scroll(target, top, 100);
     }
 
     static runAfterLoad(selector)
@@ -190,23 +243,39 @@ class AppPage
     {
         const stateKey = 'checkVisible_' + selector;
         const checkVisible = () => {
-            if (stateKey in AppPage.states) {
+            if (stateKey in window._app['states']) {
                 return false;
             }
-            AppPage.states[stateKey] = true;
+            window._app['states'][stateKey] = true;
             setTimeout(() => {
-                if (AppPage.checkVisible(selector)) {
+                /*
+                let item = $(selector);
+                const windowBottom = window.pageYOffset + document.documentElement.clientHeight;
+                let itemPosition = item.offset();
+                if (windowBottom > itemPosition.top) {
+                */
+                if (PageHandler.checkVisible(selector)) {
+                    //cb(item);
                     cb($(selector));
                     document.removeEventListener("scroll", checkVisible);
                     window.removeEventListener("resize", checkVisible);
                 }
-                delete AppPage.states[stateKey];
+                delete window._app['states'][stateKey];
             }, 200);
         };
         //
-        checkVisible();
         document.addEventListener('scroll', checkVisible);
         window.addEventListener('resize', checkVisible);
+        checkVisible();
+    }
+
+    static runAfterFontsLoaded(cb)
+    {
+        if (document.fonts !== undefined) {
+            document.fonts.ready.then(cb);
+        } else {
+            setTimeout(cb, 200);
+        }
     }
 
     static checkVisible(selector)
@@ -215,14 +284,22 @@ class AppPage
         let isVisible = false;
         if (
             (
-                item[0].getBoundingClientRect().top <= window.innerHeight
+                typeof item[0] !== 'undefined'
+                && item[0].getBoundingClientRect().top <= window.innerHeight
                 && item[0].getBoundingClientRect().bottom >= 0
-            ) 
+            )
             && getComputedStyle(item[0]).display != "none"
         ) {
             isVisible = true;
         }
         return isVisible;
+    }
+
+    // Проверяет есть ли у элемента скрытый контент
+    static hasOverflowContent(el)
+    {
+        return (el.clientHeight < el.scrollHeight)
+            || (el.clientWidth < el.scrollWidth);
     }
 }
 
@@ -254,4 +331,75 @@ class AppOnEvent
             this.preparies[name] = [];
         }
     }
+}
+
+// timer
+
+// constructor
+class AppTimer
+{
+    constructor(remain, elementID)
+    {
+        this.dateEnd = new Date();
+        remain = parseInt(remain);
+        remain += 10; // add 10 sec for that to exactly ending after server round reset
+        remain *= 1000; // convert to milliseconds
+        this.dateEnd.setTime(this.dateEnd.getTime() + remain);
+        this.elementID = elementID;
+    }
+
+    // methods
+    run()
+    {
+        const currentDate = new Date();
+        let tmx = this.dateEnd.getTime() - currentDate.getTime(); // get remain milliseconds
+        const dayLength = 86400000; // milliseconds in day
+        
+        if (tmx <= 1000) {
+            document.getElementById(this.elementID).innerHTML = "00:00:00";
+            window.location.reload();
+        }
+
+        let remainTime = '';
+        if (tmx > dayLength) {
+            const days = Math.floor(tmx / dayLength);
+            remainTime += days;
+            remainTime += ' ' + this.getDaysName(remainTime) + ' ';
+            tmx -= days * dayLength;
+        }
+
+        let seconds = Math.floor(tmx / 1000);
+        let hours = Math.floor(seconds / 3600);
+        if (hours > 0) {
+            seconds -= hours * 3600;
+        }
+        let minutes = Math.floor(seconds / 60);
+        if (minutes > 0) {
+            seconds -= minutes * 60;
+        }
+        remainTime += this.addZero(hours) + ":" + this.addZero(minutes) + ":" + this.addZero(seconds);
+
+        document.getElementById(this.elementID).innerHTML = remainTime;
+        setTimeout(() => this.run(), 1000);
+    }
+
+    addZero(number)
+    {
+        return number < 10 ? "0" + String(number) : String(number);
+    }
+
+    getDaysName(days)
+    {
+        const lastNum = parseInt(days.toString().substr(-1));
+        const lastTwo = parseInt(days.toString().substr(-2));
+        let result = '';
+        if (lastNum == 1 && lastTwo != 11) {
+            result = "день";
+        } else if (lastNum < 5 && !(lastTwo > 10 && lastTwo < 20)) {
+            result = "дня";
+        } else {
+            result = "дней";
+        }
+        return result;
+    };
 }
