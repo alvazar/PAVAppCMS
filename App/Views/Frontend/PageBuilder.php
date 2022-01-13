@@ -1,14 +1,16 @@
 <?php
-namespace App\Views\Admin;
+namespace App\Views\Frontend;
 
 use App\Views\View;
 use PAVApp\Core\ResultInterface;
 use App\Config\Settings as AppSets;
 
-class Page extends View
+class PageBuilder extends View
 {
     public function generate(array $data = []): ResultInterface
     {
+        $params = $data['params'] ?? [];
+        unset($data['params']);
         $pageName = $data['page'];
         unset($data['page']);
         if (isset($data['subPage'])) {
@@ -20,17 +22,31 @@ class Page extends View
 
         // generate view content
         $path = sprintf(
-            "%s%sresources/templates/admin/%s/template.html",
+            "%s%spages/site/%s/template.html",
             $_SERVER['DOCUMENT_ROOT'],
             AppSets::ROOT_DIR,
             $pageName
         );
+        if (!file_exists($path)) {
+            $pageName = 'error';
+            $path = sprintf(
+                "%s%spages/site/%s/template.html",
+                $_SERVER['DOCUMENT_ROOT'],
+                AppSets::ROOT_DIR,
+                $pageName
+            );
+            $data = [
+                'content' => [
+                    'content' => 'Page not found'
+                ]
+            ];
+        }
         $viewContent = $this->Template->make($path, $data);
 
         // generate page and return
         $pageTemplate = $this->getPageTemplate($pageName);
         $path = sprintf(
-            "%s%stemplates/admin/%s.html",
+            "%s%stemplates/site/%s.html",
             $_SERVER['DOCUMENT_ROOT'],
             AppSets::ROOT_DIR,
             $pageTemplate
@@ -39,7 +55,7 @@ class Page extends View
         $pageContent = $this->Template->make(
             $path, [
             'head' => [
-                'title' => 'kadmin',
+                'title' => $params['title'] ?? '',
                 'rootDir' => AppSets::ROOT_DIR,
                 'fileCacheFlag' => 3
             ],

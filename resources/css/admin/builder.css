@@ -1,0 +1,670 @@
+@CHARSET "UTF-8";
+
+a[nohref] {
+    cursor: pointer;
+}
+
+/* header */
+div.header {
+    background-color: #3c8dbc;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.header div.logo {
+    background-color: white;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 6px;
+}
+div.header div.logo a {
+    color: #1d73b2;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+/* content */
+div.content {
+    display: inline-block;
+    width: 98%;
+    vertical-align: top;
+    margin-left: 1%;
+    padding-top: 20px;
+}
+div.content div.title {
+    /*color: #3f51b5;*/
+    font-size: 17px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 3px solid #3c8dbc;
+    border-radius: 0px 0px 0px 15px;
+    padding-left: 6px;
+    padding-bottom: 4px;
+}
+div.content div.list {
+}
+div.content div.list div.title {
+}
+div.content div.list div.title span.pm {
+    display: none;
+}
+div.content div.list div.table,
+div.content div.list div.table-fields {
+    display: grid;
+    width: 100%;
+    grid-gap: 4px;
+}
+div.content div.list div.table div.cell {
+    word-break: normal;
+    vertical-align: top;
+    position: relative;
+}
+
+/* list styles */
+
+/* default list style "blue" */
+div.content div.list.blue {
+    border: 1px solid rgba(63, 81, 181, 0.58);
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    margin-top: 6px;
+    /*box-shadow: 0 0 10px rgba(0,0,0,0.5);*/
+}
+div.content div.list.blue div.title.blue {
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    padding: 4px;
+    background-color: #3c8dbc;
+    margin-bottom: 6px;
+    border-radius: 6px 6px 0px 0px;
+}
+div.content div.list.blue div.title.blue span.pm {
+    display: block;
+    float: right;
+    margin-right: 6px;
+    font-size: 14px;
+}
+div.content div.list.blue div.table.blue {
+}
+div.content div.list.blue div.table-fields.blue div.cell.blue {
+    background-color: #FFFFFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin: 4px;
+}
+div.content div.list.blue div.table.blue div.cell.blue {
+    background-color: rgba(220, 220, 220, 0.95);
+    padding: 6px;
+    border-bottom: 1px solid rgba(63, 81, 181, 0.58);
+    font-size: 16px;
+    margin: 4px;
+}
+
+/* left content */
+div.leftContent {
+    display: inline-block;
+    width: 19%;
+    vertical-align: top;
+    padding-top: 20px;
+}
+div.leftContent div.title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 3px solid #3c8dbc;
+    border-radius: 0px 0px 0px 15px;
+    padding-left: 6px;
+    padding-bottom: 4px;
+}
+
+/* left menu */
+div.leftContent div.menu {
+    background-color: rgb(197, 199, 201);
+    border: 5px solid rgb(114, 157, 178);
+    border-right: 5px solid rgb(114, 157, 178);
+    border-left-width: 0px;
+    border-radius: 0px 6px 6px 0px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.leftContent div.menu div.menuItem {
+    background-color: rgb(114, 157, 178);
+    padding: 6px;
+    border-bottom: 1px solid #e9ecee;
+    transition: background-color 0.2s ease-in 0s;
+}
+div.leftContent div.menu div.menuItem:hover,
+div.leftContent div.menu div.subMenu div.menuItem:hover {
+    background-color: #e9ecee;
+}
+div.leftContent div.menu div.menuItem a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.2s ease-in 0s;
+}
+div.leftContent div.menu div.menuItem:hover a {
+    color: rgb(12, 110, 158);
+    font-weight: bold;
+}
+div.leftContent div.menu div.menuItem.active {
+    background-color: #e9ecee !important;
+}
+div.leftContent div.menu div.menuItem.active a {
+    color: rgb(12, 110, 158) !important;
+    font-weight: bold;
+}
+div.leftContent div.menu div.menuItem a.subAction::before {
+    content: '▼';
+    font-size: 14px;
+    float: right;
+}
+div.leftContent div.menu div.menuItem a.subAction.open::before {
+    content: '▲';
+}
+div.leftContent div.menu div.subMenu div.menuItem {
+    background-color: cadetblue;
+}
+div.leftContent div.menu div.subMenu {
+    display: none;
+    border-left: 6px solid #7b829e;
+}
+div.leftContent div.menu div.subMenu.open {
+    /*display: block;*/
+}
+
+/* footer */
+div.footer {
+    text-align: center;
+}
+
+/* boxes */
+div.boxInfo {
+    border: 6px solid #3c8dbc;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    display: inline-block;
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+div.boxInfo div.title {
+    font-size: 17px;
+    font-weight: bold;
+    padding: 4px;
+    color: #3c8dbc;
+    border-bottom: 3px solid #3c8dbc;
+    border-radius: 0px 0px 0px 15px;
+    padding-left: 6px;
+}
+
+/* fields for edit */
+#formEdit, #formEditBlock {
+    position: relative;
+}
+div.fieldBlock {
+    font-size: 16px;
+    position: relative;
+    z-index: 2;
+}
+div.fieldBG {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    background-color: #fff;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+div.cell.blue > div.fieldBG {
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+}
+#formEdit > div.fieldBG {
+    bottom: 40px;
+}
+div.fieldTitle {
+    display: inline-block;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    padding: 4px;
+    color: #1d73b2;
+}
+div.fieldValue {
+    padding: 4px;
+    padding-top: 8px;
+    background-color: #FFFFFF;
+    position: relative;
+    height: 60px;
+    overflow-y: hidden;
+    word-break: break-word;
+}
+
+/*
+div.fieldValue:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 45px;
+    width: 100%;
+    background: linear-gradient(180deg, transparent, #CCCCCC);
+}
+*/
+
+label.uploadLabel {
+    color: #fff;
+    border: 1px solid #1d73b2;
+    padding: 7px;
+    cursor: pointer;
+    background-color: #1d73b2;
+    border-radius: 6px;
+}
+
+div.fieldValue img {
+    max-height: 60px;
+}
+a.fieldEditLink {
+    font-weight: bold;
+    color: #1d73b2;
+}
+button.btn {
+    padding: 4px;
+    color: #1d73b2;
+    background-color: #FFFFFF;
+    border: 1px solid #1d73b2;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+button.btn.small {
+    font-size: 12px;
+}
+button.btnSend {
+    padding: 4px;
+    background-color: #FFFFFF;
+    margin-top: 10px;
+    font-size: 20px;
+    border-radius: 6px;
+}
+button.btnSend.active {
+    color: #1d73b2;
+    border: 1px solid #1d73b2;
+    cursor: pointer;
+    font-weight: bold;
+}
+button.btnSend.disabled {
+    color: #CCCCCC;
+    border: 1px solid #CCCCCC;
+    cursor: default;
+}
+div.checkbox {
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    cursor: pointer;
+    background-color: rgba(220, 220, 220, 0.95);
+}
+div.checkbox.checked {	
+    background-color: #3c8dbc;
+}
+div.checkbox.disabled {
+}
+div.checkbox div.toggle {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    border: 1px solid gray;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+div.checkbox.checked div.toggle {
+    float: right;
+}
+div.checkbox div.toggle {
+    float: left;
+}
+
+/* popup customize */
+body div#popupMaker .buttons input {
+    color: #1d73b2;
+    border: 1px solid #1d73b2;
+}
+body div#popupMaker .buttons input:hover {
+    background-color: rgba(220, 220, 220, 0.95);
+}
+body div#popupMaker div.form {
+}
+
+body div#popupMaker div.form div.aboutField {
+    background-color: rgb(240, 240, 240);
+    padding: 8px;
+    border-radius: 6px;
+    position: relative;
+    display: grid;
+    gap: 5px;
+    border: 1px solid gray;
+    margin-bottom: 20px;
+}
+
+body div#popupMaker div.form input.string {
+    width: 400px;
+    border: 1px solid #3c8dbc;
+    padding: 4px;
+}
+body div#popupMaker div.form input.integer {
+    width: 40px;
+    border: 1px solid #3c8dbc;
+    padding: 4px;
+}
+body div#popupMaker div.form textarea.text {
+    width: 600px;
+    height: 200px;
+    border: 1px solid #3c8dbc;
+    padding: 4px;
+}
+body div#popupMaker div.form .ck-editor {
+    width: 600px;
+}
+body div#popupMaker div.form div.selectImage {
+    width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    gap: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+body div#popupMaker div.form div.selectImage img {
+    width: 100px;
+    margin: 4px;
+    cursor: pointer;
+    border: 4px solid #dfdede;
+}
+body div#popupMaker div.form div.selectImage div.fileItem {
+    width: 100px;
+    margin: 4px;
+    cursor: pointer;
+    word-break: break-word;
+    border: 4px solid #dfdede;
+    padding: 4px;
+}
+body div#popupMaker div.form div.selectImage div .selected {
+    border: 4px solid #3c8dbc;
+}
+body div#popupMaker div.form input.date {
+    width: 150px;
+    border: 1px solid #3c8dbc;
+    padding: 4px;
+}
+body div#popupMaker div.openView {
+    padding: 40px;
+}
+body div#popupMaker div.openView,
+body div#popupMaker div.openView a{
+    font-size: 24px;
+}
+div.multiple {
+    display: grid;
+    gap: 4px;
+}
+div.multipleItem {
+    position: relative;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+div.multipleItemPanel {
+    position: absolute;
+    /*left: -55px;
+    top: 6px;*/
+    top: 60px;
+    z-index: 3;
+    background-color: rgba(50, 98, 152, 0.3);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+div.multipleItem.toReplace {
+    position: relative;
+}
+div.multipleItem:hover > div.multipleItemPanel {
+    display: block;
+}
+div.multipleItemPanel button {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+div.multiplePanel {
+    text-align: right;
+    padding-bottom: 2px;
+    margin-top: 4px;
+    position: relative;
+    z-index: 2;
+}
+div.multiplePanel button {
+    margin-left: 10px;
+}
+div.multipleItemPanel a[data-click="blockCopyTo"] {
+    display: none;
+}
+
+div.dropZone {
+    /*border: 2px dashed rgba(60,141,188,0.5);
+    background-color: rgba(60,141,188,0.5);
+    height: 35px;
+    display: grid;
+    align-content: center;
+    justify-content: center;*/
+}
+div.dropZone.dropZoneHover {
+    background-color: rgba(60,141,188,0.8);
+}
+div.dropZone.dropZoneHover:after {
+    content: '>> ПЕРЕМЕСТИТЬ СЮДА <<';
+    color: #1d73b2;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#uploadFileSelected {
+    margin: 20px 0 20px 0;
+    font-weight: bold;
+}
+
+
+/* icons */
+.adminIcon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+
+    padding: 4px;
+    color: #1d73b2;
+    background-color: #ffffff;
+    border: 1px solid #1d73b2;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+
+    box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+    transition: background-color 0.2s ease-in 0s;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.adminIcon:hover {
+    background-color: #CCCCCC;
+}
+
+.adminBuilderEditIcon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    color: #1d73b2;
+    background-color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in 0s;
+}
+.adminBuilderEditIcon:hover {
+    background-color: #CCCCCC;
+}
+
+
+/* PopupMaker */
+div#popupMaker {
+	display: none;
+	z-index: 1001;
+	background-color: #FFFFFF;
+}
+
+div#popupMaker .title {
+    font-size: 20px;
+    text-align: center;
+    color: crimson;
+    padding: 4px;
+    background-color: bisque;
+    border-bottom: 1px solid brown;
+}
+
+div#popupMaker .contents {
+    font-size: 16px;
+    padding: 10px;
+    text-align: center;
+}
+div#popupMaker .buttons {
+	position: relative;
+	/*left: 0px;
+	bottom: 0px;
+	width: 100%;*/
+    border-top: 1px solid brown;
+}
+
+div#popupMaker .buttons input {
+	border: 1px solid brown;
+	color: brown;
+	background-color: #FFF;
+	padding: 4px;
+	cursor: pointer;
+	margin: 10px;
+}
+
+div#popupMaker .buttons input:hover {
+	background-color: #ffe2e2;
+}
+div#popupMaker .buttons .confirm {
+	float: left;
+}
+div#popupMaker .buttons .cancel {
+	float: right;
+}
+div#popupMaker .buttons input {
+    color: #2FB012;
+    border: 1px solid #2FB012;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 700;
+    height: 27px;
+    line-height: 27px;
+    padding: 0 7px;
+}
+div#popupMaker .buttons {
+	border-top: 1px solid #dedede;
+}
+
+div#popupMaker input, div#imc_popup textarea,
+div#popupMaker select {
+	border: 1px solid #dedede;
+    /*padding: 0 10px;*/
+}
+
+div#popupMaker .title {
+	border-width: 0px;
+	background: none;
+	font-size: 16px;
+    color: #000;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+div#popupMaker .contents {
+	font-size: 14px;
+    color: #000;
+}
+div#popupMaker .contents a {
+	font-size: 14px;
+    color: #000;
+    text-decoration: underline;
+}
+
+div#popupMaker input[type="text"] {
+    border: 1px solid #3c8dbc;
+    padding: 4px;
+}
+
+
+/* customize */
+.adminIcon {
+    color: #5e676d;
+    border: 1px solid #5e676d;
+}
+.adminBuilderEditIcon {
+    color: #5e676d;
+}
+div.fieldTitle {
+    color: #231f20;
+}
+
+div.content div.list.blue div.title.blue {
+    background-color: #5e676d;
+}
+
+div.content div.title {
+    border-bottom: 3px solid #5e676d;
+}
+
+body div#popupMaker .buttons input {
+    color: #231f20;
+    border: 1px solid #5e676d;
+}
+
+/* tooltip */
+#tooltip {
+    position: absolute;
+    /*
+    background: #0d0d0d;
+    padding: 10px;
+    color: #fff;
+    border: 1px solid gray;
+    border-radius: 6px;
+    */
+    background-color: rgb(240, 240, 240);
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid gray;
+
+    z-index: 900000;
+}
+#tooltip .close {
+    text-align: right;
+    margin: -5px;
+    padding-bottom: 10px;
+}
+#tooltip .close .adminBuilderEditIcon {
+    background: none;
+}

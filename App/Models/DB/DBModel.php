@@ -1,5 +1,5 @@
 <?php
-namespace App\DBModels;
+namespace App\Models\DB;
 
 use PAVApp\MVC\DBModelAbstract;
 

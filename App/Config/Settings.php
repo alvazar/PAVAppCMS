@@ -5,6 +5,7 @@ final class Settings
 {
     //
     public const DATA_TABLE = "";
+    public const PAGES_TABLE = "pavapp_pages";
     public const PROJECT_ID = "";
     
     // paths
