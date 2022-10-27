@@ -1,0 +1,23 @@
+div.ListItems {
+    display: grid;
+    gap: 10px;
+}
+div.ListItems > div.item {
+    display: grid;
+    gap: 4px;
+    background-color: #6c8599;
+    padding: 1rem;
+    border: 1px solid silver;
+    border-radius: 4px;
+}
+div.ListItems > div.item > div.title {
+    color: white;
+    padding: 0.5rem 0;
+    font-size: 17px;
+}
+div.ListItems div.item > div.text {
+    background-color: white;
+    color: black;
+    padding: 1.5rem;
+    border-radius: 4px;
+}

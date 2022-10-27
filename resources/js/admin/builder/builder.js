@@ -116,7 +116,7 @@ class KAdmin
                 data: sendData,
                 type: "post",
                 dataType: "JSON",
-                success: result => result['type'] == "success" ? resolve(result) : reject(result['result']),
+                success: result => result['type'] == "success" ? resolve(result) : reject(result['message']),
                 error: () => {
                     $.ajax("", {
                         data: sendData,
@@ -495,7 +495,15 @@ class KAdminForm
         let cssStyle = 'grid-template-columns: repeat(' + item['listRows'] + ',1fr);';
         cssStyle += (item['blockState'] == "close" ? 'display: none;' : '');
         let fields = "";
-        fields += await this.make(item['value'], params['prepareItem'], fieldHTML => {
+        const parentKey = item['key'];
+        fields += await this.make(item['value'], item => {
+            if (parentKey.length > 0) {
+                item['key'] = 'var' in item
+                    ? parentKey + item['var'].replace(/^([^\[]+)/, '[$1]')
+                    : parentKey;
+            }
+            return item;
+        }, fieldHTML => {
             let result = '';
             result += '<div class="cell' + css + '">' + fieldHTML + '</div>';
             return result;
@@ -573,7 +581,22 @@ class KAdminForm
                     })
                 }
             };
-            multipleBox.append(this.templ.makeTemplate(this.templates['multiple'], templateData, "multipleItem"));
+
+            const newItem = $(this.templ.makeTemplate(
+                this.templates['multiple'],
+                templateData, "multipleItem"
+            ));
+            newItem.hide();
+            let appendAfter = current.attr('data-appendAfter');
+            if (typeof appendAfter == 'string' && appendAfter.length > 0) {
+                $(appendAfter).after(newItem);
+                this.updateMultipleIndexes(multipleBox);
+                current.attr('data-appendAfter', '');
+            } else {
+                multipleBox.append(newItem);
+            }
+            newItem.slideToggle('fast', () => {});
+            
             this.adminPage.initEvents(multipleBox);
         });
         
@@ -640,7 +663,7 @@ templates['field'] = `<!-- b[templ] { -->
             data-field-actionParams="<!-- v[actionParams] -->"
             data-field-type="<!-- v[type] -->" 
             title="<!-- v[key] -->"><!--&#9998;--><svg class="adminBuilderEditIcon">
-            <use href="/admin/module/builder/images/feather-sprite.svg#edit"/>
+            <use href="/public/images/feather-sprite.svg#edit"/>
         </svg></a>
         <!-- b[aboutField] { -->
             <a 
@@ -649,7 +672,7 @@ templates['field'] = `<!-- b[templ] { -->
                 data-click="openAboutField" 
                 data-field="<!-- v[key] -->"
                 data-tooltip="<!-- v[aboutFieldContent] -->"><!--&#9998;--><svg class="adminBuilderEditIcon">
-                <use href="/admin/module/builder/images/feather-sprite.svg#alert-octagon"/>
+                <use href="/public/images/feather-sprite.svg#alert-octagon"/>
             </svg></a>
         <!-- } b[aboutField] -->
         <div class="fieldValue" id="value_<!-- v[key] -->"><!-- v[value] --></div>
@@ -676,29 +699,35 @@ templates['multiple'] = `<!-- b[multiple] { -->
 <div class="multiple" data-field="<!-- v[key] -->" style="<!-- v[cssStyle] -->">
     <!-- b[multipleItem] { -->
     <div class="multipleItem" data-index="<!-- v[index] -->" data-draggable="true">
-        <div class="multipleItemPanel" style="grid-template-columns:repeat(4, 1fr)">
+        <div class="multipleItemPanel" style="grid-template-columns:repeat(5, 1fr)">
             <a nohref title="Переместить" draggable="true">
                 <!--button class="btn">&#8597;</button-->
                 <svg class="adminIcon">
-                    <use href="/admin/module/builder/images/feather-sprite.svg#move"/>
+                    <use href="/public/images/feather-sprite.svg#move"/>
+                </svg>
+            </a>
+            <a nohref title="Добавить" data-click="multipleAdd">
+                <!--button class="btn">&#9746;</button-->
+                <svg class="adminIcon">
+                    <use href="/public/images/feather-sprite.svg#plus"/>
                 </svg>
             </a>
             <a nohref title="Удалить" data-click="multipleDelete">
                 <!--button class="btn">&#9746;</button-->
                 <svg class="adminIcon">
-                    <use href="/admin/module/builder/images/feather-sprite.svg#delete"/>
+                    <use href="/public/images/feather-sprite.svg#delete"/>
                 </svg>
             </a>
             <a nohref title="Дублировать" data-click="multipleDouble">
                 <!--button class="btn">D</button-->
                 <svg class="adminIcon">
-                    <use href="/admin/module/builder/images/feather-sprite.svg#copy"/>
+                    <use href="/public/images/feather-sprite.svg#copy"/>
                 </svg>
             </a>
             <a nohref title="Копировать блок на другую страницу" data-click="blockCopyTo">
                 <!--button class="btn">&copy;</button-->
                 <svg class="adminIcon">
-                    <use href="/admin/module/builder/images/feather-sprite.svg#share"/>
+                    <use href="/public/images/feather-sprite.svg#share"/>
                 </svg>
             </a>
         </div>
@@ -870,6 +899,7 @@ class KAdminPage
                     break;
                 case 'blockSelect':
                 case 'templateSelect':
+                case 'dataBlockSelect':
                 case 'select':
                     formEdit += '<select id="fieldEdited">';
                     formEdit += '<option value="">- Выбрать -</option>';
@@ -1071,6 +1101,21 @@ class KAdminPage
                                 }
                             }
 
+                            // refresh dataBlock form
+                            if (type == 'dataBlockSelect' && value != newValue) {
+                                try {
+                                    let data = await FormHandler.send('', {
+                                        action: 'DataBlockParams',
+                                        dataBlockName: newValue
+                                    });
+                                    adminForm.unset('data');
+                                    $('#formEdit_dataBlock').html(await adminForm.make(data['data']));
+                                    this.initEvents($('#formEdit_dataBlock'));
+                                } catch (error) {
+                                    console.log('get dataBlock params error', error);
+                                }
+                            }
+
                             // upload files
                             if (type == 'image' || type == 'file' || type == 'video') {
                                 let uploadForm = $('#uploadFileForm');
@@ -1216,6 +1261,23 @@ class KAdminPage
                 //
                 $('.btnSend.disabled').removeClass('disabled').addClass('active');
             });
+        });
+
+        // add new multiple item after current item
+        this.addEvent('multipleAdd', e => {
+            const currentItem = $(e.currentTarget)
+                .parent(".multipleItemPanel")
+                .parent('.multipleItem');
+            const multipleBox = currentItem.parent('.multiple');
+            const multiplePanel = multipleBox.parent().find('.multiplePanel');
+            const multipleVar = multipleBox.attr('data-field');
+            const currentIndex = currentItem.attr('data-index');
+            const addButton = multiplePanel.find('[data-click^="multipleAdd_"]');
+            addButton.attr(
+                'data-appendAfter',
+                `[data-field="${multipleVar}"] [data-index="${currentIndex}"]`
+            );
+            addButton.trigger('click');
         });
 
         // send copy block to other page

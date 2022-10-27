@@ -1,13 +1,13 @@
 <?php
 
 use App\Config\Namespaces as NSConfig;
-use App\Config\Settings as AppSets;
 use PAVApp\Core\Loader as Loader;
 use PAVApp\MVC\Route;
 use PAVApp\Core\Request;
 
 ini_set("display_errors", true);
 error_reporting(E_ALL);
+session_start();
 
 //
 require_once __DIR__.'/Config/Namespaces.php';

@@ -1,2 +1,4 @@
 /vendor/
 /node_modules/
+/app/routes/web-local.php
+/app/Config/UsersPassw.php

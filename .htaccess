@@ -2,4 +2,4 @@ RewriteEngine On
 
 RewriteBase /
 
-RewriteRule ^.*\/(.+\.php(.*)|)$ index.php$2
+RewriteRule ^.*(\/.+\.php(.*)|)$ index.php$2

@@ -1,0 +1,97 @@
+@CHARSET "UTF-8";
+body {
+    background-color: #496588;
+}
+
+html {
+    font-size: 14px;
+    font-family: cursive, Arial, Helvetica, sans-serif;
+    color: white;
+}
+a {
+    cursor: pointer;
+    color: silver;
+    text-decoration: none;
+}
+
+header {
+    padding: 10px;
+    height: 6rem;
+}
+header .logo {
+    padding: 10px;
+    text-align: center;
+}
+header .logo a {
+    color: silver;
+    font-size: 3rem;
+    text-decoration: none;
+}
+
+section.topMenu {
+    display: grid;
+    justify-content: center;
+}
+section.topMenu .menuItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 200px));
+    width: 50rem;
+    gap: 10px;
+}
+section.topMenu .menuItems div {
+}
+section.topMenu .menuItems a {
+    color: white;
+    font-size: 1.25rem;
+    text-decoration: none;
+    border: 1px solid silver;
+    background-color: #6c8599;
+    padding: 4px;
+    display: block;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in 0s;
+}
+section.topMenu .menuItems a:hover {
+    border-color: white;
+    background-color: #496588;
+}
+
+section.pageContent {
+    padding: 1rem;
+    display: grid;
+    justify-content: center;
+}
+section.pageContent .content {
+    padding: 1rem;
+    display: grid;
+    width: 50rem;
+}
+
+.block {
+    background-color: #6c8599;
+    padding: 1rem;
+    border: 1px solid silver;
+    border-radius: 4px;
+}
+
+.contentText {
+    background-color: white;
+    color: black;
+    padding: 1.5rem;
+    border-radius: 4px
+}
+.contentText a {
+    color: #0048a9;
+}
+
+.title {
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+footer {
+    height: 4rem;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
