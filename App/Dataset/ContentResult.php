@@ -7,9 +7,9 @@ class ContentResult extends AppUnit implements ContentResultInterface
 {
     protected $content = '';
     
-    public function content(string $content = ''): string
+    public function content(?string $content = null): string
     {
-        if ($content !== '') {
+        if (isset($content)) {
             $this->content = $content;
         }
 

@@ -7,29 +7,26 @@ class ListFromField extends AJAXAction
 {
     public function run(array $data = []): array
     {
+        if (empty($data['pageID']) || empty($data['fieldName'])) {
+            return [];
+        }
+
         $result = [];
+        $pageData = $this->app->get('DB\Pages')->getByID($data['pageID']);
+        $lst = $this->getValueFromString($data['fieldName'], $pageData);
 
-        if (
-            !empty($data['pageID'])
-            && !empty($data['fieldName'])
-        ) {
-            $pageData = $this->Site->model('DB\Pages')->getByID($data['pageID']);
+        foreach ($lst as $key => $item) {
+            $keyName = (
+                !empty($data['bindKey'])
+                && is_array($item)
+                && array_key_exists($data['bindKey'], $item)
+            ) ? $item[$data['bindKey']] : $key;
             
-            $lst = $this->getValueFromString($data['fieldName'], $pageData);
-
-            foreach ($lst as $key => $item) {
-                $keyName = (
-                    !empty($data['bindKey'])
-                    && is_array($item)
-                    && array_key_exists($data['bindKey'], $item)
-                ) ? $item[$data['bindKey']] : $key;
-                
-                $result[$keyName] = (
-                    !empty($data['titleKey'])
-                    && is_array($item)
-                    && array_key_exists($data['titleKey'], $item)
-                ) ? $item[$data['titleKey']] : $item;
-            }
+            $result[$keyName] = (
+                !empty($data['titleKey'])
+                && is_array($item)
+                && array_key_exists($data['titleKey'], $item)
+            ) ? $item[$data['titleKey']] : $item;
         }
 
         return $result;
@@ -46,13 +43,13 @@ class ListFromField extends AJAXAction
             if (array_key_exists($keys[$step], $data)) {
                 $result = (array) $data[$keys[$step]];
                 $step++;
+
                 if (isset($keys[$step]) && isset($result[$keys[$step]])) {
                     $result = $fn($step, $keys, $result);
                 }
             }
         
             return (array) $result;
-            
         };
 
         return $fn(0, $keys, $data);

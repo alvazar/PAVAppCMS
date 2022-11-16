@@ -7,11 +7,12 @@ class AJAXResponse extends AppUnit implements AJAXResponseInterface
 {
     protected $data = [];
     protected $isSuccess = false;
-    protected $mess = '';
+    protected $message = '';
 
     public function setData(array $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -20,7 +21,7 @@ class AJAXResponse extends AppUnit implements AJAXResponseInterface
         return [
             'type' => $this->isSuccess ? 'success' : 'error',
             'data' => $this->data,
-            'message' => $this->mess
+            'message' => $this->message
         ];
     }
 
@@ -29,10 +30,11 @@ class AJAXResponse extends AppUnit implements AJAXResponseInterface
         return json_encode($this->getResponse());
     }
 
-    public function setSuccess(string $mess = ''): self
+    public function setSuccess(string $message = ''): self
     {
-        $this->mess = $mess;
+        $this->message = $message;
         $this->isSuccess = true;
+
         return $this;
     }
 
@@ -40,6 +42,7 @@ class AJAXResponse extends AppUnit implements AJAXResponseInterface
     {
         $this->mess = $mess;
         $this->isSuccess = false;
+
         return $this;
     }
 }

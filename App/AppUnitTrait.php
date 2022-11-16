@@ -12,7 +12,9 @@ trait AppUnitTrait
             $this->Site = $params['app'];
             $this->app = $params['app'];
         }
+
         $this->afterAppUnitInit();
+        
         return $this;
     }
 

@@ -13,7 +13,7 @@ class PageHash extends AppUnit
 
     public function getHash(int $ID): string
     {
-        return sprintf('%d.%s', $ID, md5($ID.$this->secretKey.$ID));
+        return sprintf('%d.%s', $ID, md5($ID . $this->secretKey . $ID));
     }
 
     public function checkHash(int $ID, string $hash): bool

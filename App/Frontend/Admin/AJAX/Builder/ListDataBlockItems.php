@@ -12,7 +12,10 @@ class ListDataBlockItems extends AJAXAction
             'orderBy' => ['name' => 'asc']
         ]);
         $result = [];
-        foreach ($items as $item) $result[$item['ID']] = $item['name'];
+
+        foreach ($items as $item) {
+            $result[$item['ID']] = $item['name'];
+        }
 
         return $result;
     }

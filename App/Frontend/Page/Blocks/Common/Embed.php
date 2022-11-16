@@ -7,10 +7,10 @@ class Embed extends Block
 {
     protected function init(): void
     {
-        $this->Meta->name('Embed');
-        $this->Meta->template('common/embed');
+        $this->meta->name('Embed');
+        $this->meta->template('common/embed');
 
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Embed-код',
             'type' => 'text',
             'var' => 'embed'

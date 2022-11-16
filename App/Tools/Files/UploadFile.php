@@ -21,10 +21,12 @@ class UploadFile extends AppUnit
         $newName = $params['newName'] ?? '';
         $rewriteFile = $params['rewriteFile'] ?? true;
         $dir = $params['dir'] ?? '';
+
         if ($dir[-1] !== '/') {
             $dir .= '/';
         }
-        $dir = $_SERVER['DOCUMENT_ROOT'].$dir;
+
+        $dir = $_SERVER['DOCUMENT_ROOT'] . $dir;
 
         if (!empty($params['makeDirs']) && !file_exists($dir)) {
             mkdir($dir, 0777, true);
@@ -34,6 +36,7 @@ class UploadFile extends AppUnit
         if ($_FILES[$varName]['error'] != UPLOAD_ERR_OK) {
             return '';
         }
+
         $fileName = $_FILES[$varName]['name'];
         $tmpPath = $_FILES[$varName]['tmp_name'];
 
@@ -42,29 +45,26 @@ class UploadFile extends AppUnit
         
         // prepare and check file extension
         $fileType = $this->getExtension($fileName);
+
         if (!in_array($fileType, $allowTypes)) {
             return '';
         }
 
-        // local func for gener new name
-        $getNewName = function ($name, $type, $dir, $step = 1) use(&$getNewName) {
-            $newName = sprintf('%s_%d.%s', $name, $step, $type);
-            return file_exists($dir.$newName)
-                ? $getNewName($name, $type, $dir, $step + 1)
-                : $newName;
-        };
-
         //
-        $fileName = $newName !== '' ? $newName.'.'.$fileType : $fileName;
+        $fileName = $newName !== '' ? $newName.'.' . $fileType : $fileName;
         $filePath = sprintf('%s%s', $dir, $fileName);
+
         if (!$rewriteFile && file_exists($filePath)) {
             $baseName = mb_substr($fileName, 0, mb_strrpos($fileName, '.'));
-            $filePath = $dir.$getNewName($baseName, $fileType, $dir);
+            $filePath = $dir . $this->makeNewName($baseName, $fileType, $dir);
         }
+
         $isUploaded = move_uploaded_file($tmpPath, $filePath);
+        
         if (!$isUploaded) {
             return '';
         }
+        
         chmod($filePath, 0644);
 
         return str_replace($_SERVER['DOCUMENT_ROOT'], '', $filePath);
@@ -76,10 +76,32 @@ class UploadFile extends AppUnit
      * 
      * @return string
      */
-    public function getExtension(string $fileName):string {
+    public function getExtension(string $fileName): string {
         $fileType = mb_substr($fileName, mb_strrpos($fileName, '.') + 1);
         $fileType = mb_strtolower($fileType);
         $fileType = str_replace('jpeg', 'jpg', $fileType);
         return $fileType;
+    }
+
+    /**
+     * @param string $name
+     * @param string $type
+     * @param string $dir
+     * @param int $step
+     * 
+     * @return string
+     */
+    protected function makeNewName(
+        string $name,
+        string $type,
+        string $dir,
+        int $step = 1
+    ): string
+    {
+        $newName = sprintf('%s_%d.%s', $name, $step, $type);
+
+        return file_exists($dir.$newName)
+            ? $this->makeNewName($name, $type, $dir, $step + 1)
+            : $newName;
     }
 }

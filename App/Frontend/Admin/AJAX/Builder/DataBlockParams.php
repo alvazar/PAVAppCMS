@@ -8,7 +8,8 @@ class DataBlockParams extends AJAXAction
     public function run(array $data = []): array
     {
         $dataBlockName = $data['dataBlockName'] ?? '';
-        return $this->Site->model('Frontend\Page\DataBlocks')
+
+        return $this->app->get('Frontend\Page\DataBlocks')
                           ->getByName($dataBlockName)
                           ->meta()
                           ->params();

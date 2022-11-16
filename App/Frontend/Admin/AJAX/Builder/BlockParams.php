@@ -8,7 +8,8 @@ class BlockParams extends AJAXAction
     public function run(array $data = []): array
     {
         $blockName = $data['blockName'] ?? '';
-        return $this->Site->model('Frontend\Page\Blocks')
+
+        return $this->app->get('Frontend\Page\Blocks')
                           ->getByName($blockName)
                           ->meta()
                           ->params();

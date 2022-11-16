@@ -7,16 +7,16 @@ use App\Dataset\PageBuilderMetaInterface;
 
 abstract class Template extends AppUnit implements TemplateInterface
 {
-    protected $Meta;
-    protected $Result;
+    protected $meta;
+    protected $result;
     protected $version;
 
     public function afterAppUnitInit(): void
     {
-        $this->Meta = $this->Site->model('Dataset\PageBuilderMeta');
-        $this->Result = $this->Site->model('Dataset\ContentResult');
+        $this->meta = $this->app->get('Dataset\PageBuilderMeta');
+        $this->result = $this->app->get('Dataset\ContentResult');
         
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Версия шаблона',
             'type' => 'templateVersions',
             'var' => 'templateData[version]'
@@ -24,8 +24,8 @@ abstract class Template extends AppUnit implements TemplateInterface
 
         $this->init();
 
-        $params = $this->Meta->params();
-        $this->Meta->clear()->addParam([
+        $params = $this->meta->params();
+        $this->meta->clear()->addParam([
             'title' => 'Параметры шаблона',
             'type' => 'block-list',
             'value' => $params
@@ -39,19 +39,20 @@ abstract class Template extends AppUnit implements TemplateInterface
 
     public function make(array $data = [], string $content = ''): ContentResultInterface
     {
-        $this->Result->content($this->makeTemplate($data, $content));
+        $this->result->content($this->makeTemplate($data, $content));
         
-        return $this->Result;
+        return $this->result;
     }
 
     public function meta(): PageBuilderMetaInterface
     {
-        return $this->Meta;
+        return $this->meta;
     }
 
     public function setVersion(string $version = ''): TemplateInterface
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -61,25 +62,30 @@ abstract class Template extends AppUnit implements TemplateInterface
 
     protected function makeTemplate(array $data = [], string $content = ''): string
     {
-        $result = '';
-        
-        $template = $this->Meta->template();
-        if ($template !== '') {
-            $ver = !empty($this->version) ? $this->version : 'v1';
-            $templatePath = sprintf(
-                '%s/resources/templates/%s/%s/template.php',
-                $_SERVER['DOCUMENT_ROOT'],
-                $template,
-                $ver
-            );
-            if (file_exists($templatePath)) {
-                $Site = $this->Site;
-                $app = $this->app;
-                ob_start();
-                require $templatePath;
-                $result = ob_get_clean();
-            }
+        $template = $this->meta->template();
+
+        if ($template === '') {
+            return '';
         }
+
+        $ver = !empty($this->version) ? $this->version : 'v1';
+        $templatePath = sprintf(
+            '%s/resources/templates/%s/%s/template.php',
+            $_SERVER['DOCUMENT_ROOT'],
+            $template,
+            $ver
+        );
+
+        if (!file_exists($templatePath)) {
+            return '';
+        }
+
+        $result = '';
+        $Site = $this->Site;
+        $app = $this->app;
+        ob_start();
+        require $templatePath;
+        $result = ob_get_clean();
 
         return $result;
     }

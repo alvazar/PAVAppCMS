@@ -8,8 +8,9 @@ class ListBlocks extends AJAXAction
     public function run(array $data = []): array
     {
 
-        $result = $this->Site->model('Frontend\Page\Blocks')->getList();
+        $result = $this->app->get('Frontend\Page\Blocks')->getList();
         natcasesort($result);
+
         return $result;
     }
 }

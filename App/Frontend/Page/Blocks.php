@@ -12,53 +12,62 @@ class Blocks extends AppUnit
 {
     public function getList(array $params = []): array
     {
-        $result = [];
-
-        $pageBlocks = $this->Site->model('Frontend\Page\Blocks');
-        
-        $fnGetList = function (
-            string $path,
-            string $cutPath
-        ) use (&$fnGetList, $pageBlocks): array {
-            $result = [];
-            $dir = dir($path);
-            while ($item = $dir->read()) {
-                if ($item !== '.' && $item !== '..') {
-                    $itemPath = $path.'/'.$item;
-                    if (is_dir($itemPath)) {
-                        $result = array_merge($result, $fnGetList($itemPath, $cutPath));
-                    } else {
-                        $className = str_replace($cutPath, '', $itemPath);
-                        $className = str_replace('/', '\\', $className);
-                        $className = str_replace('.php', '', $className);
-                        $BlockObj = $pageBlocks->getByName($className);
-                        if (is_object($BlockObj)) {
-                            $BlockMeta = $BlockObj->meta();
-                            $name = $BlockMeta->name();
-                            if (empty($name)) {
-                                $name = $className;
-                            }
-                            $result[$className] = $name;
-                        }
-                    }
-                }
-            }
-            $dir->close();
-
-            return $result;
-        };
-
         $rootDir = sprintf(
             '%s/app/Frontend/Page/Blocks',
             $_SERVER['DOCUMENT_ROOT']
         );
-        $result = $fnGetList($rootDir, $rootDir.'/');
 
-        return $result;
+        return $this->getListRecursive($rootDir, $rootDir . '/');
     }
 
     public function getByName(string $name = ''): ?BlockInterface
     {
-        return $this->Site->model(sprintf('Frontend\Page\Blocks\%s', $name));
+        return $this->app->get(sprintf('Frontend\Page\Blocks\%s', $name));
+    }
+
+    protected function getListRecursive(string $path, string $cutPath): array
+    {
+        $result = [];
+        $pageBlocks = $this->app->get('Frontend\Page\Blocks');
+        $dir = dir($path);
+
+        while ($item = $dir->read()) {
+
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $itemPath = $path . '/' . $item;
+
+            if (is_dir($itemPath)) {
+                $result = array_merge(
+                    $result,
+                    $this->getListRecursive($itemPath, $cutPath)
+                );
+                continue;
+            }
+
+            $className = str_replace($cutPath, '', $itemPath);
+            $className = str_replace('/', '\\', $className);
+            $className = str_replace('.php', '', $className);
+            $blockObj = $pageBlocks->getByName($className);
+
+            if (!is_object($blockObj)) {
+                continue;
+            }
+
+            $blockMeta = $blockObj->meta();
+            $name = $blockMeta->name();
+
+            if (empty($name)) {
+                $name = $className;
+            }
+
+            $result[$className] = $name;
+        }
+
+        $dir->close();
+
+        return $result;
     }
 }

@@ -7,6 +7,6 @@ class ListTemplates extends AJAXAction
 {
     public function run(array $data = []): array
     {
-        return $this->Site->model('Frontend\Page\Templates')->getList();
+        return $this->app->get('Frontend\Page\Templates')->getList();
     }
 }

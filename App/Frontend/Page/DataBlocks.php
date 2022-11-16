@@ -14,7 +14,7 @@ class DataBlocks extends AppUnit
     {
         $result = [];
 
-        $dataBlocks = $this->Site->model('Frontend\Page\DataBlocks');
+        $dataBlocks = $this->app->get('Frontend\Page\DataBlocks');
         
         $fnGetList = function (
             string $path,
@@ -60,5 +60,51 @@ class DataBlocks extends AppUnit
     public function getByName(string $name = ''): ?DataBlockInterface
     {
         return $this->Site->model(sprintf('Frontend\Page\DataBlocks\%s', $name));
+    }
+
+    public function getListRecursive(string $path, string $cutPath): array
+    {
+        $result = [];
+        $dataBlocks = $this->app->get('Frontend\Page\DataBlocks');
+        $dir = dir($path);
+
+        while ($item = $dir->read()) {
+
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $itemPath = $path . '/' . $item;
+
+            if (is_dir($itemPath)) {
+                $result = array_merge(
+                    $result,
+                    $this->getListRecursive($itemPath, $cutPath)
+                );
+                continue;
+            }
+
+            $className = str_replace($cutPath, '', $itemPath);
+            $className = str_replace('/', '\\', $className);
+            $className = str_replace('.php', '', $className);
+            $blockObj = $dataBlocks->getByName($className);
+
+            if (!is_object($blockObj)) {
+                continue;
+            }
+
+            $blockMeta = $blockObj->meta();
+            $name = $blockMeta->name();
+
+            if (empty($name)) {
+                $name = $className;
+            }
+
+            $result[$className] = $name;
+        }
+        
+        $dir->close();
+
+        return $result;
     }
 }

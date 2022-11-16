@@ -7,16 +7,16 @@ class ListItems extends Block
 {
     protected function init(): void
     {
-        $this->Meta->name('Список элементов');
-        $this->Meta->template('common/list_items');
+        $this->meta->name('Список элементов');
+        $this->meta->template('common/list_items');
 
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Заголовок',
             'type' => 'string',
             'var' => 'title',
         ]);
 
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Элемент',
             'type' => 'multiple',
             'var' => 'items',

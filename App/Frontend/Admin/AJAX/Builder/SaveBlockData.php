@@ -9,9 +9,10 @@ class SaveBlockData extends AJAXAction
     {
         $ID = (int) ($data['ID'] ?? 0);
         $data = !empty($data['data']) ? $data['data'] : [];
-
         $skipParams = ['ID', 'site_id', 'dateCreate', 'dateModify'];
+
         foreach ($data as $key => $val) {
+
             if (in_array($key, $skipParams)) {
                 unset($data[$key]);
             }
@@ -25,16 +26,18 @@ class SaveBlockData extends AJAXAction
         $data['dateModify'] = date('Y-m-d H:i:s');
         
         //
-        $pagesModel = $this->Site->model('DB\DataBlocks');
+        $pagesModel = $this->app->get('DB\DataBlocks');
         $saveParams = [
             'fields' => $data
         ];
+        
         if ($ID > 0) {
             $saveParams['where'] = ['ID' => $ID];
             $currPage = $pagesModel->getByID($ID);
         }
 
         $result = [];
+
         if ($isSaved = $pagesModel->save($saveParams)) {
             $result['newID'] = $pagesModel->getInsertID();
         }

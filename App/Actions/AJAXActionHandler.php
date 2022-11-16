@@ -9,10 +9,10 @@ class AJAXActionHandler extends AppUnit
 {
     public function run(string $cl, array $data = []): AJAXResponseInterface
     {
-        $AJAXResponse = $this->Site->model('Dataset\AJAXResponse');
+        $AJAXResponse = $this->app->get('Dataset\AJAXResponse');
         
         try {
-            $responseData = $this->Site->model($cl)->run($data);
+            $responseData = $this->app->get($cl)->run($data);
             $AJAXResponse->setData($responseData)->setSuccess();
         } catch(Throwable $err) {
             $AJAXResponse->setError($err->getMessage());

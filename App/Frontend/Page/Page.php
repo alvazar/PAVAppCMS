@@ -22,12 +22,15 @@ class Page extends AppUnit implements PageInterface
         try {
             $pagesModel = $app->get('DB\Pages');
             $whereParams = ['active' => 1];
+
             if (!empty($_GET['pageHash'])) {
                 [$pageID, $h] = explode('.', $_GET['pageHash'], 2);
+
                 if ($app->get('Info\PageHash')->checkHash((int) $pageID, $_GET['pageHash'])) {
                     unset($whereParams['active']);
                 }
             }
+
             $pageData = $pagesModel->getList([
                 'where' => [
                     'section' => !empty($subPage) ? $page : '',
@@ -55,7 +58,9 @@ class Page extends AppUnit implements PageInterface
             );
 
             ob_start();
+            
             $app->data()->set('pageContent', '');
+            
             if (file_exists($pagePath)) {
                 require $pagePath;
                 $app->data()->set('pageContent', ob_get_contents());
@@ -67,10 +72,12 @@ class Page extends AppUnit implements PageInterface
                 );
                 ob_clean();
             }
+
             if (file_exists($templatePath)) {
                 require $templatePath;
                 $pageContent = ob_get_contents();
             }
+
             ob_end_clean();
         }
 

@@ -74,38 +74,52 @@ class Pages extends DBModel
     {
         $queryResult = $this->querySelect($params)->result();
         $result = [];
-        $pageHash = $this->Site->model('Info\PageHash');
 
         while ($item = $queryResult->fetch()) {
+
             $item['templateData'] = (array) json_decode($item['templateData'] ?? '[]', true);
             $item['blocks'] = (array) json_decode($item['blocks'] ?? '[]', true);
             $item['meta'] = (array) json_decode($item['meta'] ?? '[]', true);
 
-            $item['urlWithHash'] = '';
-            if (!empty($item['url'])) {
-                if ($item['url'] === '/') {
-                    $url = $item['url'];
-                } else {
-                    $url = sprintf(
-                        '%s/%s',
-                        $item['section'] ?? '',
-                        $item['url'] ?? ''
-                    );
-                    if ($url[0] !== '/') {
-                        $url = '/'.$url;
-                    }
-                }
-                $item['urlFull'] = $url;
-                $item['urlWithHash'] = sprintf(
-                    '%s?pageHash=%s',
-                    $url,
-                    $pageHash->getHash($item['ID'])
-                );
-            }
+            $item = $this->makePageUrl($item);
             
             $result[] = $item;
         }
 
         return $result;
+    }
+
+    protected function makePageUrl(array $item): array
+    {
+        $pageHash = $this->app->model('Info\PageHash');
+        $item['urlFull'] = '';
+        $item['urlWithHash'] = '';
+
+        if (empty($item['url'])) {
+            return $item;
+        }
+
+        $url = $item['url'];
+
+        if ($url !== '/') {
+            $url = sprintf(
+                '%s/%s',
+                $item['section'] ?? '',
+                $item['url'] ?? ''
+            );
+        }
+
+        if ($url[0] !== '/') {
+            $url = '/' . $url;
+        }
+
+        $item['urlFull'] = $url;
+        $item['urlWithHash'] = sprintf(
+            '%s?pageHash=%s',
+            $url,
+            $pageHash->getHash($item['ID'])
+        );
+
+        return $item;
     }
 }

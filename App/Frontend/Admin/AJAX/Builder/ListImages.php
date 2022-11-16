@@ -11,21 +11,27 @@ class ListImages extends AJAXAction
             ? sprintf('%s%s', $_SERVER['DOCUMENT_ROOT'], $data['dir'])
             : '';
 
-        $result = [];
-        if ($path !== '' && file_exists($path)) {
-            $DirObj = dir($path);
-            while ($item = $DirObj->read()) {
-                if ($item !== '.' && $item !== '..') {
-                    $itemPath = $data['dir'] . '/' . $item;
-                    $result[$itemPath] = $itemPath;
-                }
-            }
-            $DirObj->close();
+        if ($path === '' || !file_exists($path)) {
+            return [];
         }
+
+        $result = [];
+        $dirObj = dir($path);
+
+        while ($item = $dirObj->read()) {
+            
+            if ($item !== '.' && $item !== '..') {
+                $itemPath = $data['dir'] . '/' . $item;
+                $result[$itemPath] = $itemPath;
+            }
+        }
+
+        $dirObj->close();
 
         // clear doubles images, if webp exists
         foreach ($result as $key => $item) {
             preg_match('/(.+)\.(.+)$/', $key, $match);
+
             if (
                 $match[2] !== 'webp' 
                 && array_key_exists($match[1] . '.webp', $result)

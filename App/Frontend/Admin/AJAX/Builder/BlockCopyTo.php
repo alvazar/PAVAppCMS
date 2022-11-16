@@ -6,11 +6,18 @@ use Exception;
 
 class BlockCopyTo extends AJAXAction
 {
+    protected const ERROR_MESSAGES = [
+        'pageNotFound' => 'Страница не найдена',
+        'blockNotFound' => 'Блок не найден',
+        'blockCopy' => 'Ошибка при копирование блока',
+    ];
+
     public function run(array $data = []): array
     {
         $data['copyTo'] = (string) ($data['copyTo'] ?? '');
         $copyTo = explode(',', str_replace(' ', '', trim($data['copyTo'] ?? '0', ', ')));
         unset($data['copyTo']);
+
         foreach ($copyTo as $copyToID) {
             $data['copyTo'] = $copyToID;
             $this->copyTo($data);
@@ -25,18 +32,18 @@ class BlockCopyTo extends AJAXAction
         $copyTo = (int) ($data['copyTo'] ?? 0);
         $blockNum = (int) ($data['blockNum'] ?? 0);
 
-        $pagesModel = $this->Site->model('DB\Pages');
+        $pagesModel = $this->app->get('DB\Pages');
         $pageFrom = $pagesModel->getByID($copyFrom);
         $pageTo = $pagesModel->getByID($copyTo);
 
         if (empty($pageFrom)) {
-            throw new Exception('Страница не найдена [1]');
+            throw new Exception(self::ERROR_MESSAGES['pageNotFound']);
 
         } elseif (empty($pageFrom['blocks'][$blockNum])) {
-            throw new Exception('Блок не найден');
+            throw new Exception(self::ERROR_MESSAGES['blockNotFound']);
 
         } elseif (empty($pageTo)) {
-            throw new Exception('Страница не найдена');
+            throw new Exception(self::ERROR_MESSAGES['pageNotFound']);
         }
 
         $block = $pageFrom['blocks'][$blockNum];
@@ -56,7 +63,7 @@ class BlockCopyTo extends AJAXAction
         ];
         
         if (!$pagesModel->save($saveParams)) {
-            throw new Exception('Ошибка при копирование блока');
+            throw new Exception(self::ERROR_MESSAGES['blockCopy']);
         }
 
         return [];

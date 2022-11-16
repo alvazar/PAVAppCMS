@@ -5,6 +5,10 @@ use App\Actions\AJAXAction;
 
 class UploadImage extends AJAXAction
 {
+    protected const ERROR_UPLOAD = 'Ошибка загрузки изображения';
+    
+    protected const ALLOW_TYPES = ['jpg', 'png', 'gif', 'svg'];
+
     public function run(array $data = []): array
     {
         if (!empty($data['uploadDir'])) {
@@ -12,28 +16,35 @@ class UploadImage extends AJAXAction
         } elseif (!empty($data['oldImage'])) {
             $uploadImageDir = dirname($data['oldImage']);
         } else {
-            $uploadImageDir = "/upload_2/page";
-            for ($i = 0; $i < 3; $i++) {
-                $uploadImageDir .= sprintf('/%s', mt_rand(0, 1000));
-            }
+            $uploadImageDir = $this->makeUploadDirPath();
         }
 
-        $uploadFile = $this->Site->model('Tools\Files\UploadFile');
+        $uploadFile = $this->app->get('Tools\Files\UploadFile');
         $imagePath = $uploadFile->load([
             'varName' => 'file',
             'dir' => $uploadImageDir,
             'rewriteFile' => false,
             'makeDirs' => true,
-            'allowTypes' => ['jpg', 'png', 'gif', 'svg']
+            'allowTypes' => self::ALLOW_TYPES
         ]);
-
-        $result = [];
-        if ($imagePath !== '') {
-            $result['path'] = $imagePath;
-        } else {
-            throw new \Exception('Ошибка загрузки изображения');
+        
+        if ($imagePath === '') {
+            throw new \Exception(self::ERROR_UPLOAD);
         }
 
-        return $result;
+        return [
+            'path' => $imagePath
+        ];
+    }
+
+    protected function makeUploadDirPath(): string
+    {
+        $uploadDir = "/upload/page";
+
+        for ($i = 0; $i < 3; $i++) {
+            $uploadDir .= sprintf('/%s', mt_rand(0, 1000));
+        }
+
+        return $uploadDir;
     }
 }

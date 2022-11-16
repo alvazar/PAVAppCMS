@@ -10,6 +10,7 @@ class Result extends AppUnit
     public function set(string $key, $value): self
     {
         $this->data[$key] = $value;
+
         return $this;
     }
 

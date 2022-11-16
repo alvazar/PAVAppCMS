@@ -22,20 +22,22 @@ final class AppData
     public function set(string $name, $value): self
     {
         $this->$name = $value;
+        
         return $this;
     }
 
     public function add(string $name, $value): self
     {
-        if (isset($this->$name)) {
-            if (is_array($this->$name)) {
-                $this->$name[] = $value;
-            } elseif (is_string($this->$name)) {
-                $this->$name .= $value;
-            }
-        } else {
-            $this->$name = [$value];
+        if (!isset($this->$name)) {
+            $this->$name = [];
         }
+
+        if (is_array($this->$name)) {
+            $this->$name[] = $value;
+        } elseif (is_string($this->$name)) {
+            $this->$name .= $value;
+        }
+
         return $this;
     }
 

@@ -18,7 +18,7 @@ class AppHandler implements AppHandlerInterface
         
         // Список перемещённых классов в рамках рефакторинга.
         if (file_exists(__DIR__.'/movedClasses.php')) {
-            $this->movedClasses = (array) require_once __DIR__.'/movedClasses.php';
+            $this->movedClasses = (array) require_once __DIR__ . '/movedClasses.php';
         }
     }
 
@@ -30,9 +30,11 @@ class AppHandler implements AppHandlerInterface
     public function get(string $name): ?object
     {
         $name = ucfirst($name);
+        
         // Проверяем был ли класс перемещён.
         $name = $this->movedClasses[$name] ?? $name;
         $name = sprintf('App\\%s', $name);
+        
         try {
             return (new $name())->appUnitInit(['app' => $this]);
         } catch (Throwable $err) {

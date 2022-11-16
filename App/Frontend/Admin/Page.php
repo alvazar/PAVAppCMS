@@ -18,6 +18,18 @@ class Page extends AppUnit implements PageInterface
         $app = $this->app;
         $Site = $this->Site;
         $app->data()->set('rootDir', Settings::ROOT_DIR);
+        $result = new Result();
+
+        $templatePath = sprintf(
+            "%s%sresources/templates/admin/%s/template.php",
+            $_SERVER['DOCUMENT_ROOT'],
+            Settings::ROOT_DIR,
+            $ver
+        );
+
+        if (!file_exists($templatePath)) {
+            return $result;
+        }
         
         // get page content
         $pagePath = sprintf(
@@ -30,6 +42,7 @@ class Page extends AppUnit implements PageInterface
         );
 
         $app->data()->set('pageContent', '');
+        
         if (file_exists($pagePath)) {
             ob_start();
             require $pagePath;
@@ -38,23 +51,12 @@ class Page extends AppUnit implements PageInterface
         }
 
         // make page
-        $result = new Result();
-
-        $templatePath = sprintf(
-            "%s%sresources/templates/admin/%s/template.php",
-            $_SERVER['DOCUMENT_ROOT'],
-            Settings::ROOT_DIR,
-            $ver
-        );
-
-        if (file_exists($templatePath)) {
-            ob_start();
-            require $templatePath;
-            $result->setData([
-                'output' => ob_get_contents()
-            ]);
-            ob_end_clean();
-        }
+        ob_start();
+        require $templatePath;
+        $result->setData([
+            'output' => ob_get_contents()
+        ]);
+        ob_end_clean();
 
         return $result;
     }

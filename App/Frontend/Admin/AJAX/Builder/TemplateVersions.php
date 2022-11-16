@@ -11,20 +11,23 @@ class TemplateVersions extends AJAXAction
         $templatePath = sprintf(
             '%s/resources/templates/%s',
             $_SERVER['DOCUMENT_ROOT'],
-            $this->Site->model('Frontend\Page\Templates')
+            $this->app->get('Frontend\Page\Templates')
                        ->getByName($templateName)
                        ->meta()
                        ->template()
         );
 
         $result = [];
-        $DirObj = dir($templatePath);
-        while ($item = $DirObj->read()) {
+        $dirObj = dir($templatePath);
+
+        while ($item = $dirObj->read()) {
+
             if ($item !== '.' && $item !== '..') {
                 $result[$item] = $item;
             }
         }
-        $DirObj->close();
+
+        $dirObj->close();
 
         return $result;
     }

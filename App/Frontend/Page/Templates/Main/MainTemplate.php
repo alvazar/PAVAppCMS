@@ -7,10 +7,10 @@ class MainTemplate extends Template
 {
     protected function init(): void
     {
-        $this->Meta->name('Основной шаблон для страниц');
-        $this->Meta->template('public/main');
+        $this->meta->name('Основной шаблон для страниц');
+        $this->meta->template('public/main');
 
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Верхнее меню',
             'type' => 'block-list',
             'css' => '',

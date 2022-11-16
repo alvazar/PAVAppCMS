@@ -10,12 +10,12 @@ error_reporting(E_ALL);
 session_start();
 
 //
-require_once __DIR__.'/Config/Namespaces.php';
-//require_once __DIR__.'/../PAVApp/Core/Loader.php';
+require_once __DIR__ . '/Config/Namespaces.php';
+//require_once __DIR__ . '/../PAVApp/Core/Loader.php';
 
 // vendor autoload
-if (file_exists(__DIR__.'/../vendor/autoload.php')) {
-    require_once __DIR__.'/../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
 }
 
 // app autoload
@@ -24,5 +24,6 @@ spl_autoload_register(function ($cl) {
 });
 
 // start routing
-require_once __DIR__.'/routes/web.php';
+require_once __DIR__ . '/routes/web.php';
+
 Route::start(new Request());

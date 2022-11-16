@@ -7,16 +7,16 @@ use App\Dataset\PageBuilderMetaInterface;
 
 abstract class DataBlock extends AppUnit implements DataBlockInterface
 {
-    protected $Meta;
+    protected $meta;
 
     public function afterAppUnitInit(): void
     {
-        $this->Meta = $this->Site->model('Dataset\PageBuilderMeta');
+        $this->meta = $this->app->get('Dataset\PageBuilderMeta');
 
         $this->init();
 
-        $params = $this->Meta->params();
-        $this->Meta->clear()->addParam([
+        $params = $this->meta->params();
+        $this->meta->clear()->addParam([
             'title' => 'Данные',
             'type' => 'block-list',
             'var' => 'data',
@@ -26,7 +26,7 @@ abstract class DataBlock extends AppUnit implements DataBlockInterface
 
     public function meta(): PageBuilderMetaInterface
     {
-        return $this->Meta;
+        return $this->meta;
     }
 
     protected function init(): void

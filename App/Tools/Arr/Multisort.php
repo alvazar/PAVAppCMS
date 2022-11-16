@@ -24,25 +24,29 @@ class Multisort extends AppUnit
         $indexKey = $params['indexKey'] ?? null;
 
         $args = [];
+
         foreach ($orderBy as $key => $direction) {
             $args[] = array_column($data, $key);
             $args[] = mb_strtolower($direction) === 'asc' ? SORT_ASC : SORT_DESC;
         }
+
         $args[] = $data;
 
         array_multisort(...$args);
         $result = array_pop($args);
 
-        if (is_array($result)) {
-            if ($indexKey !== null) {
-                $prepared = [];
-                foreach ($result as $item) {
-                    $prepared[$item[$indexKey]] = $item;
-                }
-                $result = $prepared;
+        if (!is_array($result)) {
+            return [];
+        }
+
+        if ($indexKey !== null) {
+            $prepared = [];
+
+            foreach ($result as $item) {
+                $prepared[$item[$indexKey]] = $item;
             }
-        } else {
-            $result = [];
+
+            $result = $prepared;
         }
 
         return $result;

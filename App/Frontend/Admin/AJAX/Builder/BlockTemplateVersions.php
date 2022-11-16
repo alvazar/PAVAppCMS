@@ -11,20 +11,22 @@ class BlockTemplateVersions extends AJAXAction
         $templatePath = sprintf(
             '%s/resources/blocks/%s',
             $_SERVER['DOCUMENT_ROOT'],
-            $this->Site->model('Frontend\Page\Blocks')
+            $this->app->get('Frontend\Page\Blocks')
                        ->getByName($blockName)
                        ->meta()
                        ->template()
         );
 
         $result = [];
-        $DirObj = dir($templatePath);
-        while ($item = $DirObj->read()) {
+        $dirObj = dir($templatePath);
+
+        while ($item = $dirObj->read()) {
             if ($item !== '.' && $item !== '..') {
                 $result[$item] = $item;
             }
         }
-        $DirObj->close();
+
+        $dirObj->close();
 
         return $result;
     }

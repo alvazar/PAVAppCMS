@@ -12,22 +12,25 @@ class PageBuilderMeta extends AppUnit implements PageBuilderMetaInterface
     public function addParam(array $params): PageBuilderMetaInterface
     {
         $this->params[] = $params;
+
         return $this;
     }
 
-    public function name(string $name = ''): string
+    public function name(?string $name = null): string
     {
-        if ($name !== '') {
+        if (isset($name)) {
             $this->name = $name;
         }
+
         return $this->name;
     }
 
-    public function template(string $template = ''): string
+    public function template(?string $template = null): string
     {
-        if ($template !== '') {
+        if (isset($template)) {
             $this->template = $template;
         }
+
         return $this->template;
     }
 
@@ -39,6 +42,7 @@ class PageBuilderMeta extends AppUnit implements PageBuilderMetaInterface
     public function clear(): PageBuilderMetaInterface
     {
         $this->params = [];
+
         return $this;
     }
 }

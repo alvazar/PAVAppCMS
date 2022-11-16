@@ -7,9 +7,9 @@ class ListItems extends DataBlock
 {
     protected function init(): void
     {
-        $this->Meta->name('Список элементов');
+        $this->meta->name('Список элементов');
 
-        $this->Meta->addParam([
+        $this->meta->addParam([
             'title' => 'Элемент',
             'type' => 'multiple',
             'var' => 'items',

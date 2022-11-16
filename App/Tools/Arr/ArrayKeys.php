@@ -18,14 +18,18 @@ class ArrayKeys extends AppUnit
     public function removePrefix(array $data, string $prefix): array
     {
         $result = [];
+
         foreach ($data as $key => $value) {
+
             if (is_string($key)) {
-                $key = preg_replace('/^'.preg_quote($prefix, '/').'/', '', $key);
+                $key = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $key);
             }
+
             $result[$key] = is_array($value)
-                    ? $this->removePrefix($value, $prefix)
-                    : $value;
+                ? $this->removePrefix($value, $prefix)
+                : $value;
         }
+
         return $result;
     }
 
@@ -38,9 +42,11 @@ class ArrayKeys extends AppUnit
     public function addPrefix(array $data, string $prefix): array
     {
         $result = [];
+
         foreach ($data as $key => $value) {
-            $result[$prefix.$key] = $value;
+            $result[$prefix . $key] = $value;
         }
+
         return $result;
     }
 }
