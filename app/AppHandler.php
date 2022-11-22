@@ -43,6 +43,8 @@ class AppHandler implements AppHandlerInterface
     }
 
     /**
+     * deprecated
+     * 
      * @param string $name
      * 
      * @return object|null

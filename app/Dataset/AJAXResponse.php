@@ -38,9 +38,9 @@ class AJAXResponse extends AppUnit implements AJAXResponseInterface
         return $this;
     }
 
-    public function setError(string $mess = ''): self
+    public function setError(string $message = ''): self
     {
-        $this->mess = $mess;
+        $this->message = $message;
         $this->isSuccess = false;
 
         return $this;

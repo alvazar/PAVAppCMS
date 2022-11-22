@@ -1,13 +1,13 @@
 <?php
 namespace App\Dataset;
 
+use PAVApp\Traits\DataTrait;
+
 /**
  */
 final class AppData
 {
-    public function __construct()
-    {
-    }
+    use DataTrait;
 
     /**
      * @param string $name
@@ -19,30 +19,18 @@ final class AppData
         return property_exists($this, $name) === true ? $this->$name : null;
     }
 
-    public function set(string $name, $value): self
-    {
-        $this->$name = $value;
-        
-        return $this;
-    }
-
     public function add(string $name, $value): self
     {
-        if (!isset($this->$name)) {
-            $this->$name = [];
+        if (!array_key_exists($name, $this->data)) {
+            $this->data[$name] = [];
         }
 
-        if (is_array($this->$name)) {
-            $this->$name[] = $value;
-        } elseif (is_string($this->$name)) {
-            $this->$name .= $value;
+        if (is_array($this->data[$name])) {
+            $this->data[$name][] = $value;
+        } elseif (is_string($this->data[$name])) {
+            $this->data[$name] .= $value;
         }
 
         return $this;
-    }
-
-    public function get(string $name)
-    {
-        return $this->$name ?? null;
     }
 }
