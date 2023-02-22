@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', true);
 
-$pagesModel = $Site->model('DB\Pages');
+$pagesModel = $app->get('DB\Pages');
 //$pagesModel->install();
 
 // ajax process
@@ -15,11 +15,14 @@ if (!empty($_POST['action'])) {
     $section = $_POST['section'] ?? '';
     $numPage = (int) ($_POST['numPage'] ?? '');
     unset($_POST['action']);
+
     if ($action === 'getList') {
         $whereParams = [];
+
         if (!empty($section)) {
             $whereParams['section'] = $section;
         }
+
         $response['type'] = 'success';
 
         $response['items'] = $pagesModel->getList([
@@ -31,6 +34,7 @@ if (!empty($_POST['action'])) {
             ]
         ]);
     }
+    
     exit(json_encode($response));
 }
 

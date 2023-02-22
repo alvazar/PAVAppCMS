@@ -1,7 +1,7 @@
 <?php
 // init objects
-$dataBlocksModel = $Site->model('DB\DataBlocks');
-$dataBlocks = $Site->model('Frontend\Page\DataBlocks');
+$dataBlocksModel = $app->get('DB\DataBlocks');
+$dataBlocks = $app->get('Frontend\Page\DataBlocks');
 //$dataBlocksModel->install(true);
 
 // ajax process
@@ -18,8 +18,10 @@ $dataBlockData = $dataBlockID > 0 ? $dataBlocksModel->getByID($dataBlockID) : []
 
 // dataBlock params
 $dataBlockParams = [];
+
 if (!empty($dataBlockData['type'])) {
     $currDataBlock = $dataBlocks->getByName($dataBlockData['type']);
+    
     if (!empty($currDataBlock)) {
         $dataBlockParams = $currDataBlock->meta()->params();
     }

@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', true);
 
-$dataBlocksModel = $Site->model('DB\DataBlocks');
+$dataBlocksModel = $app->get('DB\DataBlocks');
 //$dataBlocksModel->install();
 
 // ajax process
@@ -15,11 +15,14 @@ if (!empty($_POST['action'])) {
     $section = $_POST['section'] ?? '';
     $numPage = (int) ($_POST['numPage'] ?? '');
     unset($_POST['action']);
+
     if ($action === 'getList') {
         $whereParams = [];
+
         if (!empty($section)) {
             $whereParams['section'] = $section;
         }
+        
         $response['type'] = 'success';
 
         $response['items'] = $dataBlocksModel->getList([

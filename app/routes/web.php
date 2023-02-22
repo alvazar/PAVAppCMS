@@ -46,6 +46,7 @@ Route::get(
 Route::post(
     '/admin/actions/process.php',
     function ($params) use($app, $user) {
+
         if (!$user->check()->isGroup('admin')) {
             exit('Not authorized');
         }
@@ -56,6 +57,7 @@ Route::post(
         $result->setData([
             'output' => $AJAXResponse->getResponseJSON()
         ]);
+
         return $result;
     }
 );

@@ -1,8 +1,6 @@
 <?php
 namespace App\DB;
 
-use App\Config\Settings as AppSets;
-
 /**
  * Класс для работы со страницами сайта.
  */

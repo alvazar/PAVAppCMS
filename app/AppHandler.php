@@ -6,7 +6,7 @@ use App\Dataset\AppData;
 
 class AppHandler implements AppHandlerInterface
 {
-    private $appData;
+    private AppData $appData;
     private $movedClasses = [];
 
     /**

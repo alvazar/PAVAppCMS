@@ -1,7 +1,7 @@
 <?php
 // init objects
-$pagesModel = $Site->model('DB\Pages');
-$pageTemplates = $Site->model('Frontend\Page\Templates');
+$pagesModel = $app->get('DB\Pages');
+$pageTemplates = $app->get('Frontend\Page\Templates');
 
 // ajax process
 if (!empty($_POST['action'])) {
